@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400..900;1,400..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&family=Great+Vibes&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Bodoni Moda", "Playfair Display", serif;
+  --font-sans: "Source Sans 3", "Inter", sans-serif;
+  --font-script: "Great Vibes", cursive;
+
+  --color-primary-gold: #775a1f;
+  --color-gold-cream: #fef8f3;
+  --color-gold-dark: #5c4311;
+  --color-accent-peach: #ede7e2;
+  --color-luxury-gold: #d8b26e;
+  --color-luxury-dark: #1d1b19;
+  --color-luxury-slate: #675c5c;
+  --color-blush-rose: #845149;
+  --color-blush-light: #fdf3ee;
+  --color-blush-soft: #fcf1eb;
+}
+
+@layer utilities {
+  .shimmer-btn {
+    position: relative;
+    overflow: hidden;
+  }
+  .shimmer-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: rotate(45deg);
+    transition: 0.8s;
+    opacity: 0;
+  }
+  .shimmer-btn:hover::after {
+    left: 100%;
+    opacity: 1;
+  }
+  
+  .glass-card {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(216, 178, 110, 0.25);
+  }
+
+  .glass-dark {
+    background: rgba(29, 27, 25, 0.85);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(216, 178, 110, 0.15);
+  }
+
+  .floating-element {
+    animation: luxuryFloat 4s ease-in-out infinite;
+  }
+}
+
+@keyframes luxuryFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(1deg); }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Custom gorgeous styling scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #fdfaf7;
+}
+::-webkit-scrollbar-thumb {
+  background: #d8b26e;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #775a1f;
+}
+

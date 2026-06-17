@@ -1,0 +1,61 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with basic details",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "name": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" }
+      },
+      "required": ["uid", "email", "name", "createdAt"]
+    },
+    "Inquiry": {
+      "title": "Inquiry",
+      "description": "Customization inquiry or purchase order tracking for high-end boutique pieces",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "productId": { "type": "string" },
+        "productName": { "type": "string" },
+        "productImage": { "type": "string" },
+        "price": { "type": "number" },
+        "status": { "type": "string" },
+        "notes": { "type": "string" },
+        "quantity": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "productId", "productName", "price", "status", "quantity", "createdAt", "updatedAt"]
+    },
+    "WishItem": {
+      "title": "WishItem",
+      "description": "A chosen catalog masterpiece saved in the cloud",
+      "type": "object",
+      "properties": {
+        "productId": { "type": "string" },
+        "addedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["productId", "addedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile records restricted to their own author account"
+    },
+    "/users/{userId}/inquiries/{inquiryId}": {
+      "schema": "Inquiry",
+      "description": "Orders or customization quote inquiries initiated by the user"
+    },
+    "/users/{userId}/wishlist/{productId}": {
+      "schema": "WishItem",
+      "description": "Favorites or chosen items synchronized with cloud session logs"
+    }
+  }
+}

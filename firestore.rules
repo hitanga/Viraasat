@@ -1,0 +1,129 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Global Safety Net catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Global helper primitives
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Validation helper for User profile
+    function isValidUser(data) {
+      return data.uid == request.auth.uid
+        && data.email is string
+        && data.email.size() <= 320
+        && data.name is string
+        && data.name.size() >= 1
+        && data.name.size() <= 100
+        // Optional fields checked if present
+        && (!data.keys().hasAny(['phone']) || (data.phone is string && data.phone.size() <= 20))
+        && (!data.keys().hasAny(['address']) || (data.address is string && data.address.size() <= 500));
+    }
+
+    // Validation helper for Inquiry product buy
+    function isValidInquiry(data) {
+      return data.id is string
+        && data.id.size() <= 128
+        && data.userId == request.auth.uid
+        && data.productId is string
+        && data.productId.size() <= 128
+        && data.productName is string
+        && data.productName.size() <= 200
+        && data.productImage is string
+        && data.productImage.size() <= 2048
+        && data.price is int
+        && data.price >= 0
+        && data.quantity is int
+        && data.quantity >= 1
+        && data.quantity <= 100
+        && data.status is string
+        && (data.status == 'pending' || data.status == 'customizing' || data.status == 'approved' || data.status == 'completed')
+        && (!data.keys().hasAny(['notes']) || (data.notes is string && data.notes.size() <= 1000));
+    }
+
+    // Validation helper for WishlistItem
+    function isValidWishItem(data) {
+      return data.productId is string
+        && data.productId.size() <= 128;
+    }
+
+    // User Profile Rules
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      
+      allow create: if isOwner(userId) 
+        && isValidUser(incoming())
+        && incoming().createdAt == request.time
+        && incoming().keys().hasAll(['uid', 'email', 'name', 'createdAt'])
+        && incoming().keys().size() <= 6; // uid, email, name, createdAt, optionally phone & address
+
+      allow update: if isOwner(userId)
+        && isValidUser(incoming())
+        && incoming().createdAt == existing().createdAt
+        && incoming().uid == existing().uid
+        && incoming().email == existing().email
+        && incoming().diff(existing()).affectedKeys().hasOnly(['name', 'phone', 'address']);
+    }
+
+    // User Customization/Purchase Inquiries
+    match /users/{userId}/inquiries/{inquiryId} {
+      allow read: if isOwner(userId);
+      
+      allow create: if isOwner(userId)
+        && isValidId(inquiryId)
+        && isValidInquiry(incoming())
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time
+        && incoming().keys().hasAll(['id', 'userId', 'productId', 'productName', 'productImage', 'price', 'quantity', 'status', 'createdAt', 'updatedAt'])
+        // limit number of keys to maximum 11 (notes is optional)
+        && incoming().keys().size() <= 11;
+
+      allow update: if isOwner(userId)
+        && isValidId(inquiryId)
+        && isValidInquiry(incoming())
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && incoming().id == existing().id
+        && incoming().userId == existing().userId
+        && incoming().productId == existing().productId
+        && incoming().diff(existing()).affectedKeys().hasOnly(['notes', 'quantity', 'updatedAt']);
+      
+      allow delete: if isOwner(userId);
+    }
+
+    // User wishlist / Cloud Favorites
+    match /users/{userId}/wishlist/{productId} {
+      allow read: if isOwner(userId);
+      
+      allow create: if isOwner(userId)
+        && isValidId(productId)
+        && isValidWishItem(incoming())
+        && incoming().addedAt == request.time
+        && incoming().keys().hasAll(['productId', 'addedAt'])
+        && incoming().keys().size() == 2;
+        
+      allow delete: if isOwner(userId);
+    }
+  }
+}

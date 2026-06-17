@@ -1,0 +1,6 @@
+{
+  "name": "Viraasat",
+  "description": "Timeless, heritage-inspired Indian jewelry crafted with modern minimalism and premium artistry.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
