@@ -52,8 +52,8 @@ export interface InquiryRecord {
 
 export interface WebsiteState {
   // Navigation & Category Filtering
-  currentScreen: 'home' | 'collections' | 'account';
-  setCurrentScreen: (screen: 'home' | 'collections' | 'account') => void;
+  currentScreen: 'home' | 'collections' | 'account' | 'privacy' | 'terms';
+  setCurrentScreen: (screen: 'home' | 'collections' | 'account' | 'privacy' | 'terms') => void;
   activeCategory: string; // 'all' | 'earrings' | 'necklaces' | 'bangles' | 'bridal'
   searchQuery: string;
   sortBy: 'featured' | 'price-low' | 'price-high' | 'rating';
@@ -84,11 +84,4 @@ export interface WebsiteState {
   // Newsletter Subscriptions
   subscribedEmails: string[];
   subscribeEmail: (email: string) => boolean; // returns true if newly subscribed
-  
-  // Custom Interaction: Interactive "Heritage Customization Decorator / Matching Assistant"
-  virtualMainPiece: Product | null;
-  virtualMatchingAccents: Product[];
-  setVirtualMainPiece: (product: Product | null) => void;
-  toggleVirtualMatchingAccent: (product: Product) => void;
-  resetVirtualSalon: () => void;
 }

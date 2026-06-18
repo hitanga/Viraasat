@@ -143,12 +143,6 @@ export default function Header() {
               >
                 Bridal
               </button>
-              <button 
-                onClick={() => handleNavClick('home', undefined, 'salon')} 
-                className="font-sans text-sm font-semibold tracking-wider text-primary-gold hover:text-gold-dark flex items-center gap-1.5 bg-gold-cream/60 py-1 px-2.5 rounded border border-luxury-gold/20"
-              >
-                <Sparkles className="w-3.5 h-3.5 animate-pulse" /> Try-On Salon
-              </button>
             </nav>
 
             {/* Quick Actions Panel */}
@@ -316,12 +310,6 @@ export default function Header() {
                   className="text-left font-serif text-lg text-luxury-dark hover:text-primary-gold transition-colors py-2"
                 >
                   Bridal Couture Set
-                </button>
-                <button 
-                  onClick={() => handleNavClick('home', undefined, 'salon')}
-                  className="text-left font-serif text-lg text-primary-gold bg-gold-cream/80 py-2.5 px-4 rounded border border-luxury-gold/30 hover:bg-gold-cream transition-all flex items-center gap-2"
-                >
-                  <Sparkles className="w-5 h-5 shrink-0" /> Virtual Try-On Salon
                 </button>
               </div>
 

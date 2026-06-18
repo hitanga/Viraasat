@@ -42,18 +42,6 @@ export default function WishlistDrawer() {
     useStore.setState({ selectedProduct: product });
   };
 
-  const handleStartStyling = (product: any) => {
-    closeWishlist();
-    useStore.setState({ virtualMainPiece: product });
-    const target = document.getElementById('salon');
-    if (target) {
-      const offset = 80;
-      const elementPos = target.getBoundingClientRect().top;
-      const offsetPos = elementPos + window.scrollY - offset;
-      window.scrollTo({ top: offsetPos, behavior: 'smooth' });
-    }
-  };
-
   // Live Pricing calculations
   const baseValue = savedProducts.reduce((sum, item) => sum + item.price, 0);
   
@@ -280,15 +268,6 @@ export default function WishlistDrawer() {
                             >
                               <Eye className="w-3.5 h-3.5" /> Spec Look
                             </button>
-                            
-                            {prod.category === 'necklaces' && (
-                              <button 
-                                onClick={() => handleStartStyling(prod)}
-                                className="text-[10px] uppercase font-sans font-bold text-primary-gold hover:text-gold-dark flex items-center gap-1 bg-gold-cream px-2 py-0.5 rounded cursor-pointer"
-                              >
-                                ✨ Salon Style
-                              </button>
-                            )}
 
                             <button 
                               onClick={() => toggleWishlist(prod.id)}

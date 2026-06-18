@@ -58,6 +58,9 @@ export default function TrendingCollection() {
     return b.reviewsCount - a.reviewsCount;
   });
 
+  // Limit displaying to exactly 8 products per user's requirement
+  const displayedProducts = sortedProducts.slice(0, 8);
+
   const activateAllCategories = () => {
     useStore.setState({ activeCategory: 'all', searchQuery: '', currentScreen: 'collections' });
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -110,7 +113,7 @@ export default function TrendingCollection() {
           {/* Sorter and Search Result Info */}
           <div className="flex flex-wrap items-center justify-between w-full lg:w-auto gap-4">
             <p className="text-xs text-luxury-slate font-sans tracking-wide">
-              Showing <span className="font-bold text-luxury-dark">{sortedProducts.length}</span> stunning masterpieces
+              Showing <span className="font-bold text-luxury-dark">{displayedProducts.length}</span> stunning masterpieces
             </p>
             
             <div className="flex items-center gap-2 bg-gold-cream/40 border border-luxury-gold/15 px-3 py-1.5 rounded-lg">
@@ -130,7 +133,7 @@ export default function TrendingCollection() {
         </div>
 
         {/* Product Grid Layout */}
-        {sortedProducts.length === 0 ? (
+        {displayedProducts.length === 0 ? (
           <div className="py-20 text-center space-y-4">
             <p className="font-serif text-xl text-luxury-dark">No jewelry masterpieces found in this drawer.</p>
             <p className="text-luxury-slate text-sm max-w-md mx-auto">
@@ -146,19 +149,25 @@ export default function TrendingCollection() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <AnimatePresence mode="popLayout">
-              {sortedProducts.map((prod) => {
+              {displayedProducts.map((prod) => {
                 const isFavorite = isInWishlist(prod.id);
                 return (
                   <motion.div 
                     key={prod.id}
                     layout
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.4 }}
-                    className="group flex flex-col justify-between h-full text-left"
+                    whileHover={{ y: -8 }}
+                    transition={{ 
+                      type: "spring",
+                      stiffness: 140,
+                      damping: 18
+                    }}
+                    className="group flex flex-col justify-between h-full text-left cursor-pointer"
+                    onClick={() => handleProductSelect(prod)}
                   >
-                    <div className="relative bg-gold-cream/40 rounded-2xl overflow-hidden aspect-[4/5] shadow-sm border border-accent-peach/20 mb-4 group-hover:shadow-md transition-shadow">
+                    <div className="relative bg-gold-cream/40 rounded-2xl overflow-hidden aspect-[4/5] shadow-sm border border-accent-peach/20 mb-4 group-hover:shadow-xl transition-all duration-300">
                       {prod.isBridal && (
                         <span className="absolute top-4 left-4 bg-blush-rose text-white text-[10px] font-sans font-bold uppercase tracking-widest px-2.5 py-1 rounded shadow-sm z-10 flex items-center gap-1">
                           Bridal
@@ -192,7 +201,10 @@ export default function TrendingCollection() {
                       {/* Hover Actions Strip */}
                       <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4 z-10">
                         <button 
-                          onClick={() => handleProductSelect(prod)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleProductSelect(prod);
+                          }}
                           className="w-full bg-white/95 text-luxury-dark py-3.5 rounded-lg text-xs font-sans font-bold uppercase tracking-wider hover:bg-primary-gold hover:text-white transition-all shadow-lg flex items-center justify-center gap-1.5 focus:outline-none cursor-pointer"
                         >
                           <Eye className="w-3.5 h-3.5" /> Quick View Spec
@@ -205,7 +217,10 @@ export default function TrendingCollection() {
                       <div>
                         {/* Title click -> opens drawer spec detail */}
                         <button
-                          onClick={() => handleProductSelect(prod)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleProductSelect(prod);
+                          }}
                           className="font-sans font-bold text-sm text-luxury-dark hover:text-primary-gold transition-colors text-left"
                         >
                           {prod.name}

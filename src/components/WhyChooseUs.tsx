@@ -97,15 +97,24 @@ export default function WhyChooseUs() {
               return (
                 <motion.div 
                   key={idx}
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1, duration: 0.5 }}
-                  className="glass-card p-6 rounded-2xl space-y-3 shadow-sm hover:shadow-md hover:border-primary-gold/40 transition-all flex flex-col justify-between"
+                  whileHover={{ 
+                    scale: 1.05,
+                    y: -5,
+                    boxShadow: "0 12px 24px -10px rgba(216,178,110,0.3)"
+                  }}
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: 160, 
+                    damping: 15 
+                  }}
+                  className="glass-card p-6 rounded-2xl space-y-3 shadow-sm border border-accent-peach/20 hover:border-primary-gold/50 transition-all flex flex-col justify-between cursor-pointer bg-white"
                 >
                   <div className="space-y-2">
                     <div className="w-10 h-10 rounded-full bg-gold-cream flex items-center justify-center text-primary-gold">
-                      <IconComp className="w-5 h-5" />
+                      <IconComp className="w-5 h-5 animate-pulse" />
                     </div>
                     <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-luxury-dark">
                       {v.title}

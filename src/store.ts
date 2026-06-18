@@ -128,34 +128,5 @@ export const useStore = create<WebsiteState>((set, get) => ({
     }
     set({ subscribedEmails: updated });
     return true;
-  },
-  
-  // Virtual Heritage Styling Assistant (The Salon helper)
-  virtualMainPiece: null,
-  virtualMatchingAccents: [],
-  
-  setVirtualMainPiece: (product) => {
-    set({ 
-      virtualMainPiece: product,
-      // Clear matching accents that are the same as main piece
-      virtualMatchingAccents: []
-    });
-  },
-  
-  toggleVirtualMatchingAccent: (product) => {
-    set((state) => {
-      const exists = state.virtualMatchingAccents.some((p) => p.id === product.id);
-      const updated = exists 
-        ? state.virtualMatchingAccents.filter((p) => p.id !== product.id)
-        : [...state.virtualMatchingAccents, product];
-      return { virtualMatchingAccents: updated };
-    });
-  },
-  
-  resetVirtualSalon: () => {
-    set({
-      virtualMainPiece: null,
-      virtualMatchingAccents: []
-    });
   }
 }));

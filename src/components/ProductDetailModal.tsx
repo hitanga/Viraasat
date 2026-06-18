@@ -24,26 +24,6 @@ export default function ProductDetailModal() {
     useStore.setState({ selectedProduct: null });
   };
 
-  const handleSalonRedirect = () => {
-    // If centerpiece, select as virtualMainPiece
-    if (selectedProduct.category === 'necklaces') {
-      useStore.setState({ virtualMainPiece: selectedProduct });
-    } else {
-      // Suggest as accent
-      useStore.setState({ virtualMatchingAccents: [selectedProduct] });
-    }
-    
-    closeOverlay();
-
-    const target = document.getElementById('salon');
-    if (target) {
-      const offset = 80;
-      const elementPos = target.getBoundingClientRect().top;
-      const offsetPos = elementPos + window.scrollY - offset;
-      window.scrollTo({ top: offsetPos, behavior: 'smooth' });
-    }
-  };
-
   const handleInquiryAction = () => {
     if (!currentUser) {
       alert("Please log in or register your Viraasat account to request customized fittings or purchase options.");
@@ -344,22 +324,13 @@ export default function ProductDetailModal() {
                     <ShoppingBag className="w-4 h-4" /> Request Custom fitting / Buy Piece
                   </button>
 
-                  <div className="grid grid-cols-2 gap-2.5">
-                    <button 
-                      onClick={() => toggleWishlist(selectedProduct.id)}
-                      className="w-full py-3 border border-primary-gold rounded-lg text-xs font-sans font-bold uppercase tracking-wider text-primary-gold hover:bg-gold-cream flex items-center justify-center gap-1.5 focus:outline-none transition-all active:scale-95 cursor-pointer"
-                    >
-                      <Heart className={`w-3.5 h-3.5 ${isFav ? 'fill-blush-rose text-blush-rose stroke-blush-rose' : ''}`} />
-                      {isFav ? 'In Checklist' : 'Add to Checklist'}
-                    </button>
-
-                    <button 
-                      onClick={handleSalonRedirect}
-                      className="w-full py-3 border border-primary-gold/40 text-primary-gold hover:bg-gold-cream/40 rounded-lg text-xs font-sans font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all active:scale-95 focus:outline-none cursor-pointer"
-                    >
-                      <Sparkles className="w-3.5 h-3.5" /> Try in Salon
-                    </button>
-                  </div>
+                  <button 
+                    onClick={() => toggleWishlist(selectedProduct.id)}
+                    className="w-full py-3 border border-primary-gold rounded-lg text-xs font-sans font-bold uppercase tracking-wider text-primary-gold hover:bg-gold-cream flex items-center justify-center gap-1.5 focus:outline-none transition-all active:scale-95 cursor-pointer"
+                  >
+                    <Heart className={`w-3.5 h-3.5 ${isFav ? 'fill-blush-rose text-blush-rose stroke-blush-rose' : ''}`} />
+                    {isFav ? 'In Checklist' : 'Add to Checklist'}
+                  </button>
                 </div>
               </>
             )}

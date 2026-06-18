@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Landmark, Instagram, Youtube, Sparkles, Send, Mail, MapPin, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useStore } from '../store';
 
 export default function Footer() {
+  const setCurrentScreen = useStore((state) => state.setCurrentScreen);
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [contactName, setContactName] = useState('');
   const [contactEmail, setContactEmail] = useState('');
@@ -145,10 +147,22 @@ export default function Footer() {
             © 2026 Viraasat Jewelry. Crafted with Handcrafted Heritage. All Rights Reserved.
           </p>
           <div className="flex gap-6 font-sans text-xs">
-            <button onClick={() => alert("Privacy Statement: Viraasat never exposes list data or email addresses to brokers. Client credentials are encrypted.")} className="text-luxury-slate hover:text-primary-gold">
+            <button 
+              onClick={() => {
+                setCurrentScreen('privacy');
+                window.scrollTo({ top: 0, behavior: 'instant' });
+              }} 
+              className="text-luxury-slate hover:text-primary-gold cursor-pointer"
+            >
               Privacy Policy
             </button>
-            <button onClick={() => alert("Terms: Bespoke measurements are guided by individual sizing choices. Plating warranties valid for 1 full year.")} className="text-luxury-slate hover:text-primary-gold">
+            <button 
+              onClick={() => {
+                setCurrentScreen('terms');
+                window.scrollTo({ top: 0, behavior: 'instant' });
+              }} 
+              className="text-luxury-slate hover:text-primary-gold cursor-pointer"
+            >
               Terms of Service
             </button>
           </div>

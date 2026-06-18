@@ -10,7 +10,6 @@ import ShopBySection from './components/ShopBySection';
 import TrendingCollection from './components/TrendingCollection';
 import WhyChooseUs from './components/WhyChooseUs';
 import BridalShowcase from './components/BridalShowcase';
-import VirtualSalon from './components/VirtualSalon';
 import PatronReviews from './components/PatronReviews';
 import InstaTimeline from './components/InstaTimeline';
 import Newsletter from './components/Newsletter';
@@ -19,6 +18,8 @@ import WishlistDrawer from './components/WishlistDrawer';
 import ProductDetailModal from './components/ProductDetailModal';
 import CollectionsPage from './components/CollectionsPage';
 import AccountPage from './components/AccountPage';
+import PrivacyPage from './components/PrivacyPage';
+import TermsPage from './components/TermsPage';
 
 export default function App() {
   const { currentScreen, setCurrentUser, setUserInquiries, setWishlist, setAuthLoading } = useStore();
@@ -160,9 +161,6 @@ export default function App() {
             {/* Exquisite Bridal Wedding Edit block */}
             <BridalShowcase />
 
-            {/* Interactive Try-On Virtual styling sandbox */}
-            <VirtualSalon />
-
             {/* Scrolling voice reviews with posting inputs */}
             <PatronReviews />
 
@@ -175,9 +173,13 @@ export default function App() {
         ) : currentScreen === 'collections' ? (
           /* High-Fidelity Paginated Collections Page with native lazy loading */
           <CollectionsPage />
-        ) : (
+        ) : currentScreen === 'account' ? (
           /* Secure User Profile & Bespoke Orders Showcase */
           <AccountPage />
+        ) : currentScreen === 'privacy' ? (
+          <PrivacyPage />
+        ) : (
+          <TermsPage />
         )}
       </main>
 
