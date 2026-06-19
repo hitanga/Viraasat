@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="8" fill="#231f20"/>
+  <!-- Sparkly jewelry jewel icon -->
+  <path d="M16 4 L25 13 L16 28 L7 13 Z" fill="none" stroke="#d8b26e" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M16 4 L16 28" fill="none" stroke="#d8b26e" stroke-width="1" stroke-dasharray="1 1"/>
+  <path d="M7 13 L25 13" fill="none" stroke="#d8b26e" stroke-width="1.2"/>
+  <path d="M11 13 L16 4 L21 13 L16 28 Z" fill="#d8b26e" fill-opacity="0.2" stroke="#d8b26e" stroke-width="1" stroke-linejoin="round"/>
+  <!-- Sparkles -->
+  <path d="M6 7 L8 7 M7 6 L7 8" stroke="#d8b26e" stroke-width="1" stroke-linecap="round"/>
+  <path d="M24 23 L26 23 M25 22 L25 24" stroke="#d8b26e" stroke-width="1" stroke-linecap="round"/>
+</svg>
